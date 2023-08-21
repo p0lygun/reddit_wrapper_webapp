@@ -1,2 +1,2 @@
 # reddit_wrapper_webapp
-A project for an internship 
+A project for an internship
