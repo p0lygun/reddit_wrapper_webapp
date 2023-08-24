@@ -1,7 +1,7 @@
 from fastapi import APIRouter
 from loguru import logger
 
-from ...session_manager import Manager
+from ....session_manager import Manager
 from .response_types import SubredditResponseData
 
 reddit_router = APIRouter(prefix="/reddit", tags=["reddit"])
