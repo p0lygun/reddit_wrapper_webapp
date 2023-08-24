@@ -8,6 +8,8 @@ authors = [
 dependencies = [
     "fastapi>=0.101.1",
     "uvicorn[standard]>=0.23.2",
+    "aiohttp>=3.8.5",
+    "loguru>=0.7.0",
 ]
 requires-python = ">=3.11"
 readme = "README.md"
@@ -17,3 +19,5 @@ license = {text = "MIT"}
 dev = [
     "pre-commit>=3.3.3",
 ]
+[tool.pdm.scripts]
+api = {call= "reddit_wrapper.backend.__main__:deploy"}
