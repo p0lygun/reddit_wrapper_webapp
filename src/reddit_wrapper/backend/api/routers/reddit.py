@@ -1,4 +1,5 @@
 from fastapi import APIRouter
+from loguru import logger
 
 from ...session_manager import Manager
 from .response_types import SubredditResponseData
@@ -26,10 +27,13 @@ async def clean_data(data: SubredditResponseData):
                             "valid": True,
                         }
                         posts.append(cleaned_data)
-                    except KeyError:
+                    except KeyError as e:
+                        logger.error(
+                            f"Incorrect data format, unable to find key {e.args[0]}"
+                        )
                         continue
-    except KeyError:
-        # todo: add logging
+    except KeyError as e:
+        logger.error(f"Incorrect data format, unable to find key {e.args[0]}")
         pass
     return posts
 
