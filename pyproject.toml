@@ -17,3 +17,5 @@ license = {text = "MIT"}
 dev = [
     "pre-commit>=3.3.3",
 ]
+[tool.pdm.scripts]
+api = {call= "reddit_wrapper.backend.__main__:deploy"}
