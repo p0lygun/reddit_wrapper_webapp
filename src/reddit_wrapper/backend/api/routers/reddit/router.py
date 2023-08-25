@@ -1,5 +1,6 @@
-from fastapi import APIRouter
+from fastapi import APIRouter, HTTPException
 from loguru import logger
+from yarl import URL
 
 from ....session_manager import Manager
 from .response_types import SubredditResponseData
@@ -42,9 +43,27 @@ async def clean_data(data: SubredditResponseData):
 async def list_subreddit_posts(subreddit_name: str):
     """List the latest 10 posts from a subreddit"""
     session = Manager.get_session()
-    resp = await session.get(
+    request_url = URL(
         f"https://www.reddit.com/r/{subreddit_name}/new.json?sort=new&limit=10"
     )
+    resp = await session.get(request_url)
+    logger.debug(resp.status)
+    if resp.status == 404:
+        logger.warning(f"{subreddit_name} is a banned subreddit")
+        raise HTTPException(status_code=404, detail=await resp.json())
+
+    if request_url != resp.url:
+        logger.warning(f"{subreddit_name} not found")
+        raise HTTPException(
+            status_code=404,
+            detail={
+                "reason": "subreddit not found",
+                "message": "not found",
+                "req_url": str(request_url),
+                "red": str(resp.url),
+            },
+        )
+
     data = await resp.json()
     return {
         "subreddit_name": subreddit_name,
