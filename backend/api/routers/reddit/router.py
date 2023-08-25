@@ -41,6 +41,9 @@ async def clean_data(data: SubredditResponseData):
 
 # pseudo cache
 cache = {}
+# in a real application, we would use a proper cache like redis
+# but for the sake of simplicity, we will use a dictionary
+# to invalidate the cache, we can simply delete the key or restart the server
 
 
 @reddit_router.get("/subreddit/{subreddit_name}")
