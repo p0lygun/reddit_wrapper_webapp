@@ -21,5 +21,5 @@ dev = [
     "pre-commit>=3.3.3",
 ]
 [tool.pdm.scripts]
-api.call = "reddit_wrapper.backend.__main__:deploy"
+api.call = "backend.__main__:deploy"
 api.env_file = ".env"
