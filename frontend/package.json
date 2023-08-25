@@ -3,6 +3,7 @@
     "tailwindcss": "^3.3.3"
   },
   "scripts": {
-    "build:css": "npx tailwindcss -i ./src/static/css/src/input.css -o ./src/static/css/dist/output.css --watch"
+    "build:css": "npx tailwindcss -i ./src/static/css/src/input.css -o ./src/static/css/dist/output.css --watch",
+    "ci": "npx tailwindcss -i ./src/static/css/src/input.css -o ./src/static/css/dist/output.css --minify"
   }
 }
