@@ -22,9 +22,7 @@ async def lifespan(*args, **kwargs):
 app = FastAPI(lifespan=lifespan)
 app.include_router(reddit.reddit_router)
 
-origins = [
-    "http://localhost",
-]
+origins = ["http://localhost:8080", "http://127.0.0.1:8080"]
 
 if extra_origins := os.getenv("CORS_ORIGINS", ""):
     origins += extra_origins.split(",")
