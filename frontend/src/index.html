@@ -8,7 +8,7 @@
         <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@100;200;300;400;500;600;700;800;900&family=Roboto&display=swap"
               rel="stylesheet">
     </head>
-    <body class="font-montserrat bg-bg flex flex-col h-screen w-screen">
+    <body class="font-montserrat bg-bg flex flex-col h-screen w-screen overflow-x-clip">
         <div class="flex flex-col h-[15%] ml-6">
             <div class="page-divider w-[5px] h-3/4 bg-bg-accent transition duration-200 ease-in-out"></div>
             <div class="flex flex-col gap-y-2">
@@ -20,28 +20,14 @@
                     </div>
                 </div>
         </div>
-        <div class="flex flex-row grow ml-6">
+        <div class="flex flex-row grow ml-6 ">
             <div class="page-divider w-[5px] h-full bg-bg-accent transition duration-200 ease-in-out"></div>
-            <div class="content-container m-5">
-                <div class="content flex flex-col w-auto">
-                    <div id="api-response-error" class="text-2xl text-fg-accent"></div>
-                    <div id="posts" class="flex flex-col gap-y-4 items-center mt-10 text-ellipsis">
-<!--                        <a href="#" target="_blank">-->
-<!--                            <div class="post w-full min-h-[9rem] flex flex-col gap-y-2 bg-bg-accent rounded-md p-2 transition duration-300 ease-in-out hover:-translate-y-2 md:min-h-fit">-->
-<!--                                <div class="flex flex-row items-baseline gap-x-2 flex-wrap">-->
-<!--                                    <p class="text-fg text-sm">By</p>-->
-<!--                                    <p class="text-white ">u/IllustriousPeak4648</p>-->
-<!--                                    <p class="text-fg text-sm">8 hours ago</p>-->
-<!--                                </div>-->
-<!--                                <div class="text-lg text-ellipsis text-white">-->
-<!--                                    Has anyone transitioned from Software Engineer to Data Engineer?-->
-<!--                                </div>-->
-<!--                            </div>-->
-<!--                        </a>-->
-<!--                    </div>-->
+            <div class="content flex flex-col m-5 md:grow">
+                <div id="api-response-error" class="text-2xl text-fg-accent"></div>
+                <div id="posts" class="flex flex-col gap-y-4 items-center mt-10 text-ellipsis md:mx-auto md:grid md:grid-cols-3 md:gap-4">
                 </div>
             </div>
         </div>
-    <script src="static/js/main.js"></script>
+    <script src="static/js/main.js" type="module"></script>
     </body>
 </html>

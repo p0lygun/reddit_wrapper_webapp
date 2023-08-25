@@ -24,7 +24,7 @@ async def clean_data(data: SubredditResponseData):
                             "title": post_data["title"],
                             "author": post_data["author"],
                             "created_utc": post_data["created_utc"],
-                            "link": post_data["url"],
+                            "link": f"https://www.reddit.com{post_data['permalink']}",
                             "valid": True,
                         }
                         posts.append(cleaned_data)
@@ -39,13 +39,21 @@ async def clean_data(data: SubredditResponseData):
     return posts
 
 
+# pseudo cache
+cache = {}
+
+
 @reddit_router.get("/subreddit/{subreddit_name}")
-async def list_subreddit_posts(subreddit_name: str):
+async def list_subreddit_posts(subreddit_name: str, limit: int = 10):
     """List the latest 10 posts from a subreddit"""
+    query = f"{subreddit_name}-{limit}"
+    if query in cache:
+        return cache[query]
     session = Manager.get_session()
     request_url = URL(
-        f"https://www.reddit.com/r/{subreddit_name}/new.json?sort=new&limit=10"
+        f"https://www.reddit.com/r/{subreddit_name}/new.json?sort=new&limit={limit}"
     )
+    logger.debug(request_url)
     resp = await session.get(request_url)
     logger.debug(resp.status)
     if resp.status == 404:
@@ -65,10 +73,12 @@ async def list_subreddit_posts(subreddit_name: str):
         )
 
     data = await resp.json()
-    return {
+    cache[query] = {
         "subreddit_name": subreddit_name,
         "x-ratelimit-remaining": resp.headers["x-ratelimit-remaining"],
         "x-ratelimit-used": resp.headers["x-ratelimit-used"],
         "x-ratelimit-reset": resp.headers["x-ratelimit-reset"],
         "posts": await clean_data(data),
     }
+
+    return cache[query]
