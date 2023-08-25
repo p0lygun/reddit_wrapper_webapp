@@ -1,3 +1,5 @@
+import os
+
 if True:
     from dotenv import load_dotenv
 
@@ -13,15 +15,16 @@ def deploy():
     server = Server(
         Config(
             "reddit_wrapper.backend:app",
-            host="0.0.0.0",
+            host=os.getenv("HOST", "0.0.0.0"),
             log_level=LOG_LEVEL,
-            port=8787,
-            reload=True,
+            port=int(os.getenv("PORT", "8787")),
+            reload=True
+            if os.getenv("RELOAD_ON_CHANGE", "False").lower() == "true"
+            else False,
         ),
     )
 
     setup_logging()
-
     server.run()
 
 
