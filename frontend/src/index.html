@@ -1,11 +1,33 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Reddit Wrapper WebApp</title>
-     <link href="static/css/dist/output.css" rel="stylesheet">
-</head>
-<body>
-<p class="text-red-50">Test</p>
-</body>
+    <head>
+        <meta charset="UTF-8">
+        <title>Reddit Wrapper WebApp</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link href="static/css/dist/output.css" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@100;200;300;400;500;600;700;800;900&family=Roboto&display=swap"
+              rel="stylesheet">
+    </head>
+    <body class="font-montserrat bg-bg grid grid-cols-1">
+        <nav class="bg-bg-accent-dark flex flex-col items-center py-2 shadow-md">
+            <a class="text-fg text-2xl" href="https://github.com/p0lygun/" target="_blank">Reddit Wrapper WebApp</a>
+        </nav>
+        <div id="content-holder" class="flex flex-row h-screen">
+            <div class="relative w-[5%]">
+                <div class="absolute right-0 w-[5px] h-full bg-bg-accent">
+                    <div class="relative mt-12 flex flex-row items-center gap-x-2">
+                        <div class="text-fg-accent font-medium text-6xl bg-bg py-2">r/</div>
+                        <label>
+                            <input id="subreddit-name-input" class="text-white font-medium text-3xl bg-bg" type="text" placeholder="Subreddit Name">
+                        </label>
+                    </div>
+                </div>
+            </div>
+            <div id="content" class="grow flex">
+
+            </div>
+
+        </div>
+    <script src="static/js/main.js"></script>
+    </body>
 </html>
