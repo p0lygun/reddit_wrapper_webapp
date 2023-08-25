@@ -25,7 +25,7 @@ let inputTimeout = null;
 function getSubredditPosts() {
     const subredditNameInput = document.getElementById('subreddit-name-input'),
         subredditName = subredditNameInput.value,
-        pageDivider = document.getElementById('page-divider');
+        pageDivider = document.querySelectorAll('.page-divider');
 
     console.debug('getSubredditPosts', subredditName)
     const DEBUG = true;
@@ -39,7 +39,9 @@ function getSubredditPosts() {
 
 
     subredditNameInput.disabled = true;
-    pageDivider.classList.add('bg-orange-400')
+    pageDivider.forEach(div => {
+        div.classList.add('bg-orange-400')
+    })
     const resp_json = fetch(API_URL).then(response => {
         if (response.ok) {
             return response.json();
@@ -59,17 +61,26 @@ function getSubredditPosts() {
 
 function processApiResponse(json) {
     console.debug('populateSubredditPosts', json)
-    const pageDivider = document.getElementById('page-divider');
+    const pageDivider = document.querySelectorAll('.page-divider'),
+        errorDiv = document.getElementById('api-response-error');
     if(json.hasOwnProperty('detail')){
-        // API returned an error
-        pageDivider.classList.remove('bg-orange-400')
-        pageDivider.classList.add('bg-fg-accent')
-        // todo: show error message
+        pageDivider.forEach(div => {
+            div.classList.remove('bg-orange-400')
+            div.classList.add('bg-fg-accent')
+        })
+
+        if (json.detail.hasOwnProperty('reason'))
+            errorDiv.innerText = `Unable to get posts because subreddit is ${json.detail.reason}`;
+        else
+            errorDiv.innerText = `${json.detail.message}`;
     } else {
         // todo: show posts
+        errorDiv.innerText = '';
     }
 
     setTimeout(() => {
-        pageDivider.classList.remove('bg-fg-accent')
+        pageDivider.forEach(div => {
+            div.classList.remove('bg-fg-accent')
+        })
     }, 2000);
 }
