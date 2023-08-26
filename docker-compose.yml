@@ -1,12 +1,16 @@
 version: "3.7"
 services:
   backend:
-    image: ghcr.io/p0lygun/reddit_wrapper_webapp/main:latest
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: final
     command: "python -m backend"
+    container_name: reddit_wrapper_webapp_backend
     ports:
-      - "8050:8787"
+      - "8787:8787"
     environment:
-      - CORS_ORIGINS=https://api.reddit.probe.vibhakar.dev,https://reddit.probe.vibhakar.dev
+      - CORS_ORIGINS=http://0.0.0.0:8080
     healthcheck:
       test: curl -fk http://0.0.0.0:8787/docs || exit 1
       interval: "10s"
@@ -15,10 +19,30 @@ services:
       start_period: "10s"
 
   frontend:
-    image: ghcr.io/p0lygun/reddit_wrapper_webapp/main:latest
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: final
     command: "python -m http.server 8080 -d frontend/"
+    volumes:
+      - ./frontend/src:/project/frontend
+    container_name: reddit_wrapper_webapp_frontend
     ports:
-      - "8051:8080"
+      - "8080:8080"
     depends_on:
       backend:
         condition: service_healthy
+
+  tailwind:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: node_base
+    command: "npm run build:css"
+    volumes:
+      - ./frontend/:/frontend
+    container_name: reddit_wrapper_webapp_tailwind
+    depends_on:
+      backend:
+        condition: service_healthy
+    stdin_open: true

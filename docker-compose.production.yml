@@ -1,0 +1,24 @@
+version: "3.7"
+services:
+  backend:
+    image: ghcr.io/p0lygun/reddit_wrapper_webapp/main:latest
+    command: "python -m backend"
+    ports:
+      - "8050:8787"
+    environment:
+      - CORS_ORIGINS=https://api.reddit.probe.vibhakar.dev,https://reddit.probe.vibhakar.dev
+    healthcheck:
+      test: curl -fk http://0.0.0.0:8787/docs || exit 1
+      interval: "10s"
+      timeout: "5s"
+      retries: 5
+      start_period: "10s"
+
+  frontend:
+    image: ghcr.io/p0lygun/reddit_wrapper_webapp/main:latest
+    command: "python -m http.server 8080 -d frontend/"
+    ports:
+      - "8051:8080"
+    depends_on:
+      backend:
+        condition: service_healthy
