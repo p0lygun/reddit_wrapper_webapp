@@ -1,4 +1,5 @@
-const DEBUG = !(window.location.hostname === 'probe-reddit.vibhakar.dev');
+const PRODUCTION_HOSTNAME = 'probe-reddit.vibhakar.dev'
+const DEBUG = !(window.location.hostname === PRODUCTION_HOSTNAME);
 let inputTimeout = null;
 (function setupSubredditNameInput(){
     console.log('Initializing subreddit name input')
@@ -33,7 +34,7 @@ function getSubredditPosts() {
     if (DEBUG)
         API_HOST = 'http://0.0.0.0:8787'
     else
-        API_HOST = 'https://reddit.stillearning.com'
+        API_HOST = `https://${PRODUCTION_HOSTNAME}`
 
     const API_URL = `${API_HOST}/reddit/subreddit/${subredditName}?limit=12`;
 
