@@ -1,3 +1,4 @@
+const DEBUG = !(window.location.hostname === 'probe-reddit.vibhakar.dev');
 let inputTimeout = null;
 (function setupSubredditNameInput(){
     console.log('Initializing subreddit name input')
@@ -28,7 +29,6 @@ function getSubredditPosts() {
         pageDivider = document.querySelectorAll('.page-divider');
 
     console.debug('getSubredditPosts', subredditName)
-    const DEBUG = true;
     let API_HOST
     if (DEBUG)
         API_HOST = 'http://0.0.0.0:8787'
