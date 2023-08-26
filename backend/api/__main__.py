@@ -16,6 +16,7 @@ async def lifespan(*args, **kwargs):
     Manager()
     yield
     logger.info("Shutting down")
+    # close the session manager
     await Manager.close()
 
 
@@ -25,6 +26,8 @@ app.include_router(reddit.reddit_router)
 origins = ["http://localhost:8080", "http://127.0.0.1:8080"]
 
 if extra_origins := os.getenv("CORS_ORIGINS", ""):
+    # add extra origins using the environment variable CORS_ORIGINS
+    # correct format is ORIGIN1,ORIGIN2,ORIGIN3
     origins += extra_origins.split(",")
 
 logger.info(f"CORS origins are {origins}")
